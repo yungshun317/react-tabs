@@ -26,6 +26,36 @@ export default function App() {
   );
 }
 
+console.log(<DifferentContent test={16} />);
+/*
+{$$typeof: Symbol(react.element), key: null, ref: null, props: {…}, type: ƒ, …}
+    $$typeof: Symbol(react.element)
+    key: null
+    props: {test: 16}
+    ref: null
+    type: ƒ DifferentContent()
+    _owner: null
+    _store: {validated: false}
+    _self: undefined
+    _source: {fileName: '/home/yungshun/workspace/js/react-tabs/src/App.js', lineNumber: 29, columnNumber: 13}
+    [[Prototype]]: Object
+*/
+// Not a React component
+console.log(DifferentContent());
+/*
+{$$typeof: Symbol(react.element), type: 'div', key: null, ref: null, props: {…}, …}
+    $$typeof: Symbol(react.element)
+    key: null
+    props: {className: 'tab-content', children: {…}}
+    ref: null
+    type: "div"
+    _owner: null
+    _store: {validated: false}
+    _self: undefined
+    _source: {fileName: '/home/yungshun/workspace/js/react-tabs/src/App.js', lineNumber: 113, columnNumber: 7}
+    [[Prototype]]: Object
+*/
+
 function Tabbed({ content }) {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -38,8 +68,12 @@ function Tabbed({ content }) {
           <Tab num={3} activeTab={activeTab} onClick={setActiveTab} />
         </div>
 
+        {/* `key` needs to be unique */}
         {activeTab <= 2 ? (
-            <TabContent item={content.at(activeTab)} />
+            <TabContent
+                item={content.at(activeTab)}
+                key={content.at(activeTab).summary}
+            />
         ) : (
             <DifferentContent />
         )}
